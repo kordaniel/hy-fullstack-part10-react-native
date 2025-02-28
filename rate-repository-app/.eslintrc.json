@@ -1,0 +1,18 @@
+{
+  "__comment": "THIS FILE IS NOT USED, INCLUDED ONLY AS A REF FOR THE FULLSTACKOPEN COURSE. THE PROJECT HAS BEEN CONFIGURED WITH eslint VERSION 9.21, WHICH USES THE FILE eslint.config.mjs",
+  "plugins": ["react", "react-native"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "parser": "@babel/eslint-parser",
+  "env": {
+    "react-native/react-native": true
+  },
+  "rules": {
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off"
+  }
+}
