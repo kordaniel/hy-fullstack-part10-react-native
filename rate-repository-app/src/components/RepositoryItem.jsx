@@ -43,12 +43,10 @@ const ItemHeading = ({ avatarUrl, fullName, description, language }) => (
           fontSize="subheading"
           color="white"
           bgColor={theme.colors.primary}
-          style={{
-            borderRadius: 5,
-            padding: 5,
-          }}>
-            {language}
-          </Text>
+          style={{ borderRadius: 5, padding: 5 }}
+        >
+          {language}
+        </Text>
       </View>
     </View>
   </View>
@@ -65,7 +63,7 @@ const ItemStats = ({ starsCnt, forksCnt, reviewsCnt, ratingAvg }) => {
         <Text textAlign="center" fontSize="subheading" fontWeight="bold">{parseCount(starsCnt)}</Text>
         <Text textAlign="center">Stars</Text>
       </View>
-      <View style={{ ...styles.colContainer}}>
+      <View style={styles.colContainer}>
         <Text textAlign="center" fontSize="subheading" fontWeight="bold">{parseCount(forksCnt)}</Text>
         <Text textAlign="center">Forks</Text>
       </View>
