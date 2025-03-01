@@ -3,7 +3,7 @@ import { FlatList, View, StyleSheet } from 'react-native';
 import RepositoryItem from './RepositoryItem';
 
 const styles = StyleSheet.create({
-  separator: { height: 10, },
+  separator: { height: 1, },
 });
 
 const repositories = [
