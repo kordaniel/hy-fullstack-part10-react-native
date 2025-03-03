@@ -18,6 +18,9 @@ const styles = StyleSheet.create({
   colorTextWhite: {
     color: theme.colors.white,
   },
+  colorTextRed: {
+    color: theme.colors.red,
+  },
   colorPrimary: {
     color: theme.colors.primary,
   },
@@ -34,6 +37,7 @@ const Text = ({ color, bgColor, textAlign, fontSize, fontWeight, style, ...props
     styles.text,
     color === 'textSecondary' && styles.colorTextSecondary,
     color === 'primary' && styles.colorPrimary,
+    color === 'red' && styles.colorTextRed,
     color === 'white' && styles.colorTextWhite,
     bgColor && { backgroundColor: bgColor },
     textAlign === 'center' && styles.textAlignCenter,

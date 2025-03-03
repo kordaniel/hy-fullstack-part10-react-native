@@ -9,6 +9,7 @@ const theme = {
     appBarTabBorder: '#3A434B',
     appBackground: '#e1e4e8',
     black: '#000000',
+    red: '#d73a4a',
     white: '#ffffff'
   },
   fontSizes: {
