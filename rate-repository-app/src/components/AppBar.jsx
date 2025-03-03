@@ -1,4 +1,4 @@
-import { View, StyleSheet, Pressable } from 'react-native';
+import { View, StyleSheet, Pressable, ScrollView } from 'react-native';
 import { Link } from 'react-router-native';
 import Constants from 'expo-constants';
 
@@ -45,8 +45,16 @@ const AppBarTab = ({ title, routePath }) => {
 
 const AppBar = () => (
   <View style={styles.flexContainer}>
-    <AppBarTab title="Repositories" routePath="/" />
-    <AppBarTab title="Sign In" routePath="sign-in" />
+    <ScrollView horizontal>
+      <AppBarTab title="Repositories" routePath="/" />
+      <AppBarTab title="Sign In" routePath="sign-in" />
+      {/* horizontal scrolling works
+      <AppBarTab title="Extra tab 1" routePath="/" />
+      <AppBarTab title="Extra tab 2" routePath="sign-in" />
+      <AppBarTab title="Extra tab 3" routePath="/" />
+      <AppBarTab title="Extra tab 4" routePath="sign-in" />
+      */}
+    </ScrollView>
   </View>
 );
 
