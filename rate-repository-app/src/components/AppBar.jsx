@@ -1,4 +1,5 @@
 import { View, StyleSheet, Pressable } from 'react-native';
+import { Link } from 'react-router-native';
 import Constants from 'expo-constants';
 
 import Text from './Text';
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const AppBarTab = ({ title }) => {
+const AppBarTab = ({ title, routePath }) => {
   const textStyle = {
     color: theme.colors.appBarTabText,
   };
@@ -32,9 +33,11 @@ const AppBarTab = ({ title }) => {
   return (
     <View style={styles.flexItem}>
       <Pressable onPress={null}>
-        <Text fontWeight="bold" style={textStyle}>
-          {title}
-        </Text>
+        <Link to={routePath}>
+          <Text fontWeight="bold" style={textStyle}>
+            {title}
+          </Text>
+        </Link>
       </Pressable>
     </View>
   );
@@ -42,7 +45,8 @@ const AppBarTab = ({ title }) => {
 
 const AppBar = () => (
   <View style={styles.flexContainer}>
-    <AppBarTab title="Repositories" />
+    <AppBarTab title="Repositories" routePath="/" />
+    <AppBarTab title="Sign In" routePath="sign-in" />
   </View>
 );
 
