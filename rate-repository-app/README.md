@@ -1,5 +1,5 @@
 # rate-repository-app
-React native frontend for Part 10 of the University of Helsinkis course [Full stack open](https://fullstackopen.com/).
+React native frontend for Part 10 of the University of Helsinki course [Full stack open](https://fullstackopen.com/).
 
 ## Getting started
 * node v.20

@@ -1,9 +1,10 @@
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
 import Text from './Text';
 import theme from '../theme';
+import useSignIn from '../hooks/useSignIn';
 
 const styles = StyleSheet.create({
   container: {
@@ -43,12 +44,23 @@ const validationSchema = yup.object().shape({
 });
 
 const SignIn = () => {
+  const [signIn, result] = useSignIn();
+
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+
+    try {
+      const { data } = await signIn({ username, password });
+      console.log('SignIn:', data); // === result.data
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const formik = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
-      console.log('Sign in:', values);
-    },
+    onSubmit
   });
 
   const textInputUsernameValidationErr = formik.touched.username && formik.errors.username;
@@ -59,6 +71,12 @@ const SignIn = () => {
   const textInputPasswordStyle = !textInputPasswordValidationErr
     ? styles.textInput
     : { ...styles.textInput, borderColor: theme.colors.red };
+
+  if (result.loading) {
+    return (
+      <ActivityIndicator size="large" color={theme.colors.primary} />
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -83,6 +101,9 @@ const SignIn = () => {
       {textInputPasswordValidationErr && (
         <Text color="red">{formik.errors.password}</Text>
       )}
+      {result.error && (
+        <Text color="red">{result.error.message}</Text>
+      )}
       <Pressable onPress={formik.handleSubmit}>
         <Text
           style={styles.textSubmitBtn}
@@ -94,6 +115,9 @@ const SignIn = () => {
           Sign In
         </Text>
       </Pressable>
+      {result.called && result.data?.authenticate?.accessToken && (
+        <Text>Logged in with token: {result.data.authenticate.accessToken}</Text>
+      )}
     </View>
   );
 };

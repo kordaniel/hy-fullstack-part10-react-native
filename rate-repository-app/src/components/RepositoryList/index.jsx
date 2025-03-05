@@ -20,7 +20,7 @@ const RepositoryList = () => {
 
   if (loading) {
     return (
-      <ActivityIndicator size="large" color={theme.colors.primary}/>
+      <ActivityIndicator size="large" color={theme.colors.primary} />
     );
   }
 
