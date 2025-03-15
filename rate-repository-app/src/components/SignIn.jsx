@@ -1,4 +1,6 @@
 import { ActivityIndicator, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { useNavigate } from 'react-router-native';
+
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 
@@ -44,6 +46,7 @@ const validationSchema = yup.object().shape({
 });
 
 const SignIn = () => {
+  const navigate = useNavigate();
   const [signIn, result] = useSignIn();
 
   const onSubmit = async (values) => {
@@ -51,9 +54,12 @@ const SignIn = () => {
 
     try {
       const { data } = await signIn({ username, password });
-      console.log('SignIn:', data); // === result.data
+      if (data?.authenticate?.accessToken) {
+        // TODO: Handle else?
+        navigate('/');
+      }
     } catch (error) {
-      console.error(error);
+      console.error('SignIn error:', error);
     }
   };
 
