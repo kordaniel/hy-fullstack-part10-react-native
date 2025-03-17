@@ -17,13 +17,18 @@ const useSignIn = () => {
 
     if (!response.loading && !response.error && response.data.authenticate.accessToken) {
       await authStorage.setAccessToken(response.data.authenticate.accessToken);
-      apolloClient.resetStore();
+      await apolloClient.resetStore();
     }
 
     return response;
   };
 
-  return [signIn, result]; // result == access token
+  const signOut = async () => {
+    await authStorage.removeAccessToken();
+    await apolloClient.resetStore();
+  }
+
+  return [signIn, result, signOut]; // result == access token
 };
 
 export default useSignIn;
