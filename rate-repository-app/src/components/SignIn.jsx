@@ -45,6 +45,63 @@ const validationSchema = yup.object().shape({
     .required('Password is required'),
 });
 
+export const SignInContainer = ({ error, onSubmit }) => {
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit
+  });
+
+  const textInputUsernameValidationErr = formik.touched.username && formik.errors.username;
+  const textInputPasswordValidationErr = formik.touched.password && formik.errors.password;
+  const textInputUsernameStyle = !textInputUsernameValidationErr
+    ? styles.textInput
+    : { ...styles.textInput, borderColor: theme.colors.red };
+  const textInputPasswordStyle = !textInputPasswordValidationErr
+    ? styles.textInput
+    : { ...styles.textInput, borderColor: theme.colors.red };
+
+    return (
+      <View style={styles.container}>
+        <TextInput
+          style={textInputUsernameStyle}
+          placeholder='Username'
+          placeholderTextColor={theme.colors.textSecondary}
+          value={formik.values.username}
+          onChangeText={formik.handleChange('username')}
+        />
+        {textInputUsernameValidationErr && (
+          <Text color="red">{formik.errors.username}</Text>
+        )}
+        <TextInput
+          style={textInputPasswordStyle}
+          placeholder='Password'
+          placeholderTextColor={theme.colors.textSecondary}
+          secureTextEntry={true}
+          value={formik.values.password}
+          onChangeText={formik.handleChange('password')}
+        />
+        {textInputPasswordValidationErr && (
+          <Text color="red">{formik.errors.password}</Text>
+        )}
+        {error && (
+          <Text color="red">{error.message}</Text>
+        )}
+        <Pressable onPress={formik.handleSubmit}>
+          <Text
+            style={styles.textSubmitBtn}
+            fontSize="subheading"
+            color="white"
+            textAlign="center"
+            bgColor={theme.colors.primary}
+          >
+            Sign In
+          </Text>
+        </Pressable>
+      </View>
+    );
+};
+
 const SignIn = () => {
   const navigate = useNavigate();
   const [signIn, result] = useSignIn();
@@ -63,21 +120,6 @@ const SignIn = () => {
     }
   };
 
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-    onSubmit
-  });
-
-  const textInputUsernameValidationErr = formik.touched.username && formik.errors.username;
-  const textInputPasswordValidationErr = formik.touched.password && formik.errors.password;
-  const textInputUsernameStyle = !textInputUsernameValidationErr
-    ? styles.textInput
-    : { ...styles.textInput, borderColor: theme.colors.red };
-  const textInputPasswordStyle = !textInputPasswordValidationErr
-    ? styles.textInput
-    : { ...styles.textInput, borderColor: theme.colors.red };
-
   if (result.loading) {
     return (
       <ActivityIndicator size="large" color={theme.colors.primary} />
@@ -85,46 +127,7 @@ const SignIn = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <TextInput
-        style={textInputUsernameStyle}
-        placeholder='Username'
-        placeholderTextColor={theme.colors.textSecondary}
-        value={formik.values.username}
-        onChangeText={formik.handleChange('username')}
-      />
-      {textInputUsernameValidationErr && (
-        <Text color="red">{formik.errors.username}</Text>
-      )}
-      <TextInput
-        style={textInputPasswordStyle}
-        placeholder='Password'
-        placeholderTextColor={theme.colors.textSecondary}
-        secureTextEntry={true}
-        value={formik.values.password}
-        onChangeText={formik.handleChange('password')}
-      />
-      {textInputPasswordValidationErr && (
-        <Text color="red">{formik.errors.password}</Text>
-      )}
-      {result.error && (
-        <Text color="red">{result.error.message}</Text>
-      )}
-      <Pressable onPress={formik.handleSubmit}>
-        <Text
-          style={styles.textSubmitBtn}
-          fontSize="subheading"
-          color="white"
-          textAlign="center"
-          bgColor={theme.colors.primary}
-        >
-          Sign In
-        </Text>
-      </Pressable>
-      {result.called && result.data?.authenticate?.accessToken && (
-        <Text>Logged in with token: {result.data.authenticate.accessToken}</Text>
-      )}
-    </View>
+    <SignInContainer error={result.error} onSubmit={onSubmit} />
   );
 };
 
