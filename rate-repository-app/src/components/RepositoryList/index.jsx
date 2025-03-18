@@ -11,12 +11,23 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-const RepositoryList = () => {
-  const { loading, error, repositories } = useRepositoriesGql();
-
+export const RepositoryListContainer = ({ repositories }) => {
   const repositoryNodes = repositories
     ? repositories.edges.map(edge => edge.node)
     : [];
+
+  return (
+    <FlatList
+      data={repositoryNodes}
+      ItemSeparatorComponent={ItemSeparator}
+      renderItem={({ item }) => <RepositoryItem item={item} />}
+      keyExtractor={item => item.id}
+    />
+  );
+};
+
+const RepositoryList = () => {
+  const { loading, error, repositories } = useRepositoriesGql();
 
   if (loading) {
     return (
@@ -31,12 +42,7 @@ const RepositoryList = () => {
   }
 
   return (
-    <FlatList
-      data={repositoryNodes}
-      ItemSeparatorComponent={ItemSeparator}
-      renderItem={({ item }) => <RepositoryItem item={item} />}
-      keyExtractor={item => item.id}
-    />
+    <RepositoryListContainer repositories={repositories} />
   );
 };
 

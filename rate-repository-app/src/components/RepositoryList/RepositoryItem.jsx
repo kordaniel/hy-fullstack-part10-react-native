@@ -81,7 +81,7 @@ const ItemStats = ({ starsCnt, forksCnt, reviewsCnt, ratingAvg }) => {
 
 const RepositoryItem = ({ item }) => {
   return (
-    <View style={styles.container}>
+    <View testID="repositoryItem" style={styles.container}>
       <ItemHeading
         avatarUrl={item.ownerAvatarUrl}
         fullName={item.fullName}
