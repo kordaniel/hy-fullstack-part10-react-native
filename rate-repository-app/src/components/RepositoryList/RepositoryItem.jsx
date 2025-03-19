@@ -1,4 +1,5 @@
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, Pressable, StyleSheet, View } from 'react-native';
+import * as Linking from 'expo-linking';
 
 import Text from '../Text';
 import theme from '../../theme';
@@ -79,7 +80,24 @@ const ItemStats = ({ starsCnt, forksCnt, reviewsCnt, ratingAvg }) => {
   );
 };
 
-const RepositoryItem = ({ item }) => {
+const GitHubLink = ({ url }) => {
+  return (
+    <Pressable onPress={() => Linking.openURL(url)}>
+      <Text
+        fontSize="subheading"
+        fontWeight="bold"
+        color="white"
+        textAlign="center"
+        bgColor={theme.colors.primary}
+        style={{ borderRadius: 5, padding: 15 }}
+      >
+        Open in GitHub
+      </Text>
+    </Pressable>
+  );
+}
+
+const RepositoryItem = ({ item, renderLink }) => {
   return (
     <View testID="repositoryItem" style={styles.container}>
       <ItemHeading
@@ -94,6 +112,7 @@ const RepositoryItem = ({ item }) => {
         reviewsCnt={item.reviewCount}
         ratingAvg={item.ratingAverage}
       />
+      {renderLink && item.url && <GitHubLink url={item.url} />}
     </View>
   );
 };

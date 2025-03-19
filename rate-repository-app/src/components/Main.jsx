@@ -1,8 +1,10 @@
-import { StyleSheet, View } from 'react-native';
+import { Platform, StyleSheet, Text, View } from 'react-native';
 import { Route, Routes, Navigate } from 'react-router-native';
+import Constants from 'expo-constants';
 
 import AppBar from './AppBar';
 import RepositoryList from './RepositoryList';
+import RepositoryView from './RepositoryView';
 import SignIn from './SignIn';
 
 import theme from '../theme';
@@ -15,12 +17,27 @@ const styles = StyleSheet.create({
   },
 });
 
+const WhatIsMyPlatform = () => {
+  return (
+    <>
+      <Text>Your platform is: {Platform.OS}</Text>
+      <Text>Version: {Platform.Version}</Text>
+      <Text>Env: {Constants.expoConfig.extra.env}</Text>
+      <Text>Apollo URI: {Constants.expoConfig.extra.apolloUri}</Text>
+    </>
+  );
+}
+
 const Main = () => {
   return (
     <View style={styles.container}>
       <AppBar />
+      <WhatIsMyPlatform />
       <Routes>
         <Route path="/" element={<RepositoryList />} />
+        <Route path="/repository">
+          <Route path=":repositoryId" element={<RepositoryView />} />
+        </Route>
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

@@ -55,7 +55,7 @@ describe('RepositoryList', () => {
       const expectedHeadingFields = ['fullName', 'description', 'language'];
       const expectedBodyFields = ['forksCount', 'stargazersCount', 'ratingAverage', 'reviewCount'];
 
-      render(<RepositoryListContainer repositories={repositories} />);
+      render(<RepositoryListContainer navigate={null} repositories={repositories} />);
       //screen.debug();
       const repositoryItems = screen.getAllByTestId('repositoryItem');
       expect(repositoryItems).toHaveLength(2);
