@@ -3,6 +3,7 @@ import { Route, Routes, Navigate } from 'react-router-native';
 import Constants from 'expo-constants';
 
 import AppBar from './AppBar';
+import CreateReview from './CreateReview';
 import RepositoryList from './RepositoryList';
 import RepositoryView from './RepositoryView';
 import SignIn from './SignIn';
@@ -38,6 +39,7 @@ const Main = () => {
         <Route path="/repository">
           <Route path=":repositoryId" element={<RepositoryView />} />
         </Route>
+        <Route path="/create-review" element={<CreateReview />} />
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

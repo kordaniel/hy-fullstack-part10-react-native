@@ -1,37 +1,23 @@
-import { ActivityIndicator, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { useNavigate } from 'react-router-native';
-
-import { useFormik } from 'formik';
 import * as yup from 'yup';
 
-import Text from './Text';
 import theme from '../theme';
 import useSignIn from '../hooks/useSignIn';
+import Form from './Form';
 
-const styles = StyleSheet.create({
-  container: {
-    padding: 10,
-    margin: 5,
-    gap: 10,
-    backgroundColor: theme.colors.white,
+const formFields = {
+  username: {
+    initialValue: '',
+    placeholderText: 'Username',
   },
-  textInput: {
-    borderWidth: 1,
-    borderColor: theme.colors.textSecondary,
-    borderRadius: 5,
-    padding: 10,
+  password: {
+    initialValue: '',
+    placeholderText: 'Password',
+    props: {
+      secureTextEntry: true,
+    },
   },
-  textSubmitBtn: {
-    borderWidth: 1,
-    borderColor: theme.colors.textSecondary,
-    borderRadius: 5,
-    padding: 10,
-  },
-});
-
-const initialValues = {
-  username: '',
-  password: '',
 };
 
 const validationSchema = yup.object().shape({
@@ -46,60 +32,20 @@ const validationSchema = yup.object().shape({
 });
 
 export const SignInContainer = ({ error, onSubmit }) => {
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-    onSubmit
-  });
-
-  const textInputUsernameValidationErr = formik.touched.username && formik.errors.username;
-  const textInputPasswordValidationErr = formik.touched.password && formik.errors.password;
-  const textInputUsernameStyle = !textInputUsernameValidationErr
-    ? styles.textInput
-    : { ...styles.textInput, borderColor: theme.colors.red };
-  const textInputPasswordStyle = !textInputPasswordValidationErr
-    ? styles.textInput
-    : { ...styles.textInput, borderColor: theme.colors.red };
-
-    return (
-      <View style={styles.container}>
-        <TextInput
-          style={textInputUsernameStyle}
-          placeholder='Username'
-          placeholderTextColor={theme.colors.textSecondary}
-          value={formik.values.username}
-          onChangeText={formik.handleChange('username')}
-        />
-        {textInputUsernameValidationErr && (
-          <Text color="red">{formik.errors.username}</Text>
-        )}
-        <TextInput
-          style={textInputPasswordStyle}
-          placeholder='Password'
-          placeholderTextColor={theme.colors.textSecondary}
-          secureTextEntry={true}
-          value={formik.values.password}
-          onChangeText={formik.handleChange('password')}
-        />
-        {textInputPasswordValidationErr && (
-          <Text color="red">{formik.errors.password}</Text>
-        )}
-        {error && (
-          <Text color="red">{error.message}</Text>
-        )}
-        <Pressable onPress={formik.handleSubmit}>
-          <Text
-            style={styles.textSubmitBtn}
-            fontSize="subheading"
-            color="white"
-            textAlign="center"
-            bgColor={theme.colors.primary}
-          >
-            Sign In
-          </Text>
-        </Pressable>
-      </View>
-    );
+  // NOTE: The form has been refactored into it's own component as of exercise 10.21,
+  //       which makes this container unnecessary. It's left here only cause of the
+  //       earlier exercise where we made a test for this sign-in container. It would be
+  //       smarter to test the Form component directly and delete this intermediate container.
+  return (
+    <Form
+      error={error?.message}
+      loading={null}
+      formFields={formFields}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+      submitLabel='Sign In'
+    />
+  );
 };
 
 const SignIn = () => {
