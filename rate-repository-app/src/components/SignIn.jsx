@@ -22,12 +22,12 @@ const formFields = {
 
 const validationSchema = yup.object().shape({
   username: yup.string()
-    .min(4, 'Username must be at least 4 characters long')
-    .max(16, 'Username length cannot exceed 16 characters')
+    .min(5, 'Username must be at least 5 characters long')
+    .max(30, 'Username length cannot exceed 30 characters')
     .required('Username is required'),
   password: yup.string()
-    .min(6, 'Password must be at least 6 characters long')
-    .max(16, 'Password length cannot exceed 16 characters')
+    .min(5, 'Password must be at least 5 characters long')
+    .max(30, 'Password length cannot exceed 30 characters')
     .required('Password is required'),
 });
 
@@ -43,7 +43,7 @@ export const SignInContainer = ({ error, onSubmit }) => {
       formFields={formFields}
       validationSchema={validationSchema}
       onSubmit={onSubmit}
-      submitLabel='Sign In'
+      submitLabel="Sign In"
     />
   );
 };

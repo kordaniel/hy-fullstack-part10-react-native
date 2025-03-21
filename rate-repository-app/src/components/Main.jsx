@@ -7,6 +7,7 @@ import CreateReview from './CreateReview';
 import RepositoryList from './RepositoryList';
 import RepositoryView from './RepositoryView';
 import SignIn from './SignIn';
+import SignUp from './SignUp';
 
 import theme from '../theme';
 
@@ -41,6 +42,7 @@ const Main = () => {
         </Route>
         <Route path="/create-review" element={<CreateReview />} />
         <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-up" element={<SignUp />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </View>

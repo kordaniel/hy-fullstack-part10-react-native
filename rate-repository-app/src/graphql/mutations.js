@@ -11,6 +11,14 @@ export const CREATE_REPOSITORY_REVIEW = gql`
   }
 `;
 
+export const CREATE_USER = gql`
+  mutation CreateUser($user: CreateUserInput!) {
+    createUser(user: $user) {
+      id
+    }
+  }
+`;
+
 export const SIGN_IN = gql`
   mutation SignIn($credentials: AuthenticateInput!) {
     authenticate(credentials: $credentials) {
