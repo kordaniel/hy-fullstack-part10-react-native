@@ -2,6 +2,7 @@ import { FlatList, View, StyleSheet, ActivityIndicator, Pressable } from 'react-
 import { useNavigate } from 'react-router-native';
 
 import RepositoryItem from './RepositoryItem';
+import SelectionPicker from '../SelectionPicker';
 import Text from '../Text';
 import useRepositoriesGql from '../../hooks/useQuery';
 import theme from '../../theme';
@@ -12,7 +13,13 @@ const styles = StyleSheet.create({
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
-export const RepositoryListContainer = ({ navigate, repositories }) => {
+export const RepositoryListContainer = ({
+  navigate,
+  repositories,
+  orderingOptions,
+  selectedOrdering,
+  setSelectedOrdering
+}) => {
   const handlePress = (e, repositoryId) => {
     e.preventDefault();
     navigate(`repository/${repositoryId}`);
@@ -32,13 +39,27 @@ export const RepositoryListContainer = ({ navigate, repositories }) => {
         </Pressable>
       )}
       keyExtractor={item => item.id}
+      ListHeaderComponent={
+        <SelectionPicker
+          selections={orderingOptions}
+          selectionIdx={selectedOrdering}
+          setSelectionIdx={setSelectedOrdering}
+        />
+      }
     />
   );
 };
 
 const RepositoryList = () => {
   const navigate = useNavigate();
-  const { loading, error, repositories } = useRepositoriesGql();
+  const {
+    loading,
+    error,
+    repositories,
+    queryOrderings,
+    selectedQueryOrderingIdx,
+    setSelectedQueryOrderingIdx
+  } = useRepositoriesGql();
 
   if (loading) {
     return (
@@ -53,7 +74,13 @@ const RepositoryList = () => {
   }
 
   return (
-    <RepositoryListContainer navigate={navigate} repositories={repositories} />
+    <RepositoryListContainer
+      navigate={navigate}
+      repositories={repositories}
+      orderingOptions={queryOrderings.map(o => o.label)}
+      selectedOrdering={selectedQueryOrderingIdx}
+      setSelectedOrdering={setSelectedQueryOrderingIdx}
+    />
   );
 };
 
