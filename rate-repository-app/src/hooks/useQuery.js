@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import { useQuery } from '@apollo/client';
+import { useDebounce } from 'use-debounce';
 
 import { GET_REPOSITORIES } from '../graphql/queries';
-import { useState } from 'react';
 
 const queryOrderings = [
   {
@@ -29,9 +30,15 @@ const queryOrderings = [
 
 const useRepositoriesGql = () => {
   const [querySelection, setQuerySelection] = useState(0);
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [debouncedSearchKeyword] = useDebounce(searchKeyword, 700);
+
   const { data, error, loading } = useQuery(GET_REPOSITORIES, {
     fetchPolicy: 'cache-and-network',
-    variables: queryOrderings[querySelection].variables,
+    variables: {
+      ...queryOrderings[querySelection].variables,
+      searchKeyword: debouncedSearchKeyword,
+    },
   });
 
   const setSelectedQueryOrderingIdx = (idx) => {
@@ -40,13 +47,19 @@ const useRepositoriesGql = () => {
     }
   };
 
+  const updateSearchKeyword = (str) => {
+    setSearchKeyword(str ? str.trim() : '');
+  };
+
   return {
     repositories: data?.repositories,
     error: error?.message,
     loading,
     queryOrderings,
     selectedQueryOrderingIdx: querySelection,
-    setSelectedQueryOrderingIdx
+    setSelectedQueryOrderingIdx,
+    searchKeyword,
+    updateSearchKeyword,
   };
 };
 

@@ -42,6 +42,17 @@ const repositories = {
   ],
 };
 
+const repositoriesQuery = {
+  error: undefined,
+  loading: undefined,
+  repositories,
+  queryOrderings: [],
+  selectedQueryOrderingIdx: 0,
+  setSelectedQueryOrderingIdx: undefined,
+  searchKeyword: '',
+  updateSearchKeyword: undefined,
+};
+
 const parseCount = val => val < 1000
   ? `${val}`
   : `${(Math.round(10 * val / 1000) / 10)}k`;
@@ -55,7 +66,7 @@ describe('RepositoryList', () => {
       const expectedHeadingFields = ['fullName', 'description', 'language'];
       const expectedBodyFields = ['forksCount', 'stargazersCount', 'ratingAverage', 'reviewCount'];
 
-      render(<RepositoryListContainer navigate={null} repositories={repositories} />);
+      render(<RepositoryListContainer navigate={null} repositoriesQuery={repositoriesQuery} />);
       //screen.debug();
       const repositoryItems = screen.getAllByTestId('repositoryItem');
       expect(repositoryItems).toHaveLength(2);
