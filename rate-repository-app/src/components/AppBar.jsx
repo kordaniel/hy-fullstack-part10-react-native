@@ -1,12 +1,11 @@
 import { View, StyleSheet, Pressable, ScrollView, ActivityIndicator } from 'react-native';
-import { Link } from 'react-router-native';
+import { Link, useNavigate } from 'react-router-native';
 import Constants from 'expo-constants';
-import { useQuery } from '@apollo/client';
 
 import Text from './Text';
 import theme from '../theme';
+import useCurrentUser from '../hooks/useCurrentUser';
 import useSignIn from '../hooks/useSignIn';
-import { ME } from '../graphql/queries';
 
 const styles = StyleSheet.create({
   flexContainer: {
@@ -87,10 +86,14 @@ const AppBarTab = ({ title, routePath, onPress }) => {
 };
 
 const AppBar = () => {
+  const navigate = useNavigate();
   const [,, signOut] = useSignIn();
-  const { data, error, loading } = useQuery(ME, {
-    fetchPolicy: 'cache-and-network',
-  });
+  const { currentUser, error, loading } = useCurrentUser();
+
+  const handleSignoutPress = async () => {
+    await signOut();
+    navigate('/');
+  }
 
   if (loading) {
     <ActivityIndicator size="large" color={theme.colors.primary} />
@@ -106,11 +109,12 @@ const AppBar = () => {
     <View style={styles.flexContainer}>
       <ScrollView horizontal>
         <AppBarTab title="Repositories" routePath="/" />
-        {data?.me
+        {currentUser
           ? (
             <>
               <AppBarTab title="Create a review" routePath="/create-review" />
-              <AppBarTab title="Sign out" onPress={signOut} />
+              <AppBarTab title="My reviews" routePath="/my-reviews" />
+              <AppBarTab title="Sign out" onPress={handleSignoutPress} />
             </>
           )
           : (
