@@ -1,6 +1,10 @@
 import { gql } from '@apollo/client';
 
-import { REPOSITORY_DETAILS, REPOSITORY_REVIEW_DETAILS } from './fragments';
+import {
+  PAGE_INFO_DETAILS,
+  REPOSITORY_DETAILS,
+  REPOSITORY_REVIEW_DETAILS
+} from './fragments';
 
 export const GET_REPOSITORIES = gql`
   query(
@@ -20,40 +24,44 @@ export const GET_REPOSITORIES = gql`
         cursor,
       },
       pageInfo {
-        hasNextPage,
-        hasPreviousPage,
-        startCursor,
-        endCursor
+        ...PageInfoDetails
       }
     }
   }
   ${REPOSITORY_DETAILS}
+  ${PAGE_INFO_DETAILS}
 `;
 
+// The only query that actually utilizes pagination, even if all the other
+// queries request PageInfo with cursor
 export const GET_REPOSITORY = gql`
   query(
     $id: ID!
+    $reviewFirst: Int
+    $reviewAfterCursor: String
   ) {
     repository(id: $id) {
       ...RepositoryDetails
-      reviews {
+      reviews(
+        first: $reviewFirst
+        after: $reviewAfterCursor
+      ) {
+        totalCount
         edges {
           node {
             ...ReviewDetails
           }
           cursor
-        },
+        }
         pageInfo {
-          hasNextPage,
-          hasPreviousPage,
-          startCursor,
-          endCursor
+          ...PageInfoDetails
         }
       }
     }
   }
   ${REPOSITORY_DETAILS}
   ${REPOSITORY_REVIEW_DETAILS}
+  ${PAGE_INFO_DETAILS}
 `;
 
 export const GET_CURRENT_USER = gql`
@@ -75,13 +83,11 @@ export const GET_CURRENT_USER = gql`
           cursor
         },
         pageInfo {
-          hasNextPage
-          hasPreviousPage
-          startCursor
-          endCursor
+          ...PageInfoDetails
         }
       }
     }
   }
   ${REPOSITORY_REVIEW_DETAILS}
+  ${PAGE_INFO_DETAILS}
 `;

@@ -1,5 +1,14 @@
 import { gql } from '@apollo/client';
 
+export const PAGE_INFO_DETAILS = gql`
+  fragment PageInfoDetails on PageInfo {
+    hasNextPage
+    hasPreviousPage
+    startCursor
+    endCursor
+  }
+`;
+
 export const REPOSITORY_REVIEW_DETAILS = gql`
   fragment ReviewDetails on Review {
     id
