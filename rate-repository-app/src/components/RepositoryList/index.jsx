@@ -1,27 +1,21 @@
 import React from 'react';
-import { FlatList, View, StyleSheet, ActivityIndicator, Pressable, TextInput } from 'react-native';
+import { FlatList, View, StyleSheet, Pressable, TextInput } from 'react-native';
 import { useNavigate } from 'react-router-native';
 
+import EmptyFlatList from '../FlatListComponents/EmptyFlatList';
+import ItemSeparator from '../FlatListComponents/ItemSeparator';
 import RepositoryItem from './RepositoryItem';
 import SelectionPicker from '../SelectionPicker';
-import Text from '../Text';
 import useRepositoriesGql from '../../hooks/useQuery';
 import theme from '../../theme';
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 5,
-    gap: 10,
-    margin: 5,
-    backgroundColor: theme.colors.white,
-  },
   headerContainer: {
     padding: 5,
     gap: 5,
     margin: 5,
     backgroundColor: theme.colors.appBackground,
   },
-  separator: { height: 1, },
   textInput: {
     borderWidth: 1,
     borderColor: theme.colors.textSecondary,
@@ -31,8 +25,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.white, 
   },
 });
-
-const ItemSeparator = () => <View style={styles.separator} />;
 
 const RepositoryListHeader = ({
   orderingOptions,
@@ -70,35 +62,11 @@ export class RepositoryListContainer extends React.Component {
     this.props.navigate(`repository/${repositoryId}`);
   };
 
-  renderEmptyList = () => {
-    const { error, loading } = this.props.repositoriesQuery;
-
-    if (error) {
-      return (
-        <View style={styles.container}>
-          <Text fontSize="subheading" color="red">Error while attempting to query repositories: {error}</Text>
-        </View>
-      );
-    }
-
-    if (loading) {
-      return (
-        <View style={styles.container}>
-          <ActivityIndicator size="large" color={theme.colors.primary} />
-        </View>
-      );
-    }
-
-    return (
-      <View style={styles.container}>
-        <Text fontSize="subheading" color="textSecondary">No repositories</Text>
-      </View>
-    );
-  };
-
   render() {
     const {
       repositories,
+      error,
+      loading,
       queryOrderings,
       selectedQueryOrderingIdx,
       setSelectedQueryOrderingIdx,
@@ -126,7 +94,12 @@ export class RepositoryListContainer extends React.Component {
             setFilterByString={updateSearchKeyword}
           />
         }
-        ListEmptyComponent={this.renderEmptyList}
+        ListEmptyComponent={<EmptyFlatList
+          message="No repositories"
+          errorPrefix="Error while attempting to query repositories"
+          error={error}
+          loading={loading}
+        />}
       />
     );
   };

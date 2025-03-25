@@ -53,7 +53,7 @@ const useRepositoriesGql = () => {
 
   return {
     repositories: data?.repositories,
-    error: error?.message,
+    error,
     loading,
     queryOrderings,
     selectedQueryOrderingIdx: querySelection,

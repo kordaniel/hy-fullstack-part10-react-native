@@ -30,7 +30,7 @@ const useRepository = (id) => {
 
   return {
     repository: data?.repository,
-    error: error?.message,
+    error,
     fetchMoreReviews: handleFetchMoreReviews,
     loading,
   };
