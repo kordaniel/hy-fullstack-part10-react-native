@@ -1,6 +1,7 @@
-import { ActivityIndicator, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, TextInput, View } from 'react-native';
 import { useFormik } from 'formik';
 
+import Button from '../Button';
 import Text from '../Text';
 import theme from '../../theme';
 
@@ -74,18 +75,7 @@ const Form = ({
           )}
         </View>
       ))}
-      <Pressable onPress={formik.handleSubmit}>
-        <Text
-          style={styles.textSubmitBtn}
-          fontSize="subheading"
-          fontWeight="bold"
-          color="white"
-          textAlign="center"
-          bgColor={theme.colors.primary}
-        >
-          {submitLabel}
-        </Text>
-      </Pressable>
+      <Button onPress={formik.handleSubmit}>{submitLabel}</Button>
       {error && <Text color="red" textAlign="center">Error: {error}</Text>}
       {loading && <ActivityIndicator size="large" color={theme.colors.primary} />}
     </View>

@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   button: {
-    marginHorizontal: 5,
     borderWidth: 1,
     borderColor: theme.colors.textSecondary,
     borderRadius: 5,
