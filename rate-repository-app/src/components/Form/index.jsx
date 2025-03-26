@@ -1,36 +1,10 @@
-import { ActivityIndicator, StyleSheet, TextInput, View } from 'react-native';
+import { ActivityIndicator, TextInput, View } from 'react-native';
 import { useFormik } from 'formik';
 
 import Button from '../Button';
 import Text from '../Text';
+import globalStyles from '../../globalStyles';
 import theme from '../../theme';
-
-const textInputStyle = {
-  borderWidth: 1,
-  borderColor: theme.colors.textSecondary,
-  borderRadius: 5,
-  padding: 10,
-};
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 10,
-    margin: 5,
-    gap: 10,
-    backgroundColor: theme.colors.white,
-  },
-  textInput: textInputStyle,
-  textInputValidationFailed: {
-    ...textInputStyle,
-    borderColor: theme.colors.red,
-  },
-  textSubmitBtn: {
-    borderWidth: 1,
-    borderColor: theme.colors.textSecondary,
-    borderRadius: 5,
-    padding: 10,
-  },
-});
 
 const Form = ({
   error,
@@ -54,12 +28,13 @@ const Form = ({
     validationSchema?.fields && validationSchema.fields.hasOwnProperty(field) &&
     formik.touched[field] && formik.errors[field];
 
-  const textInputFieldStyle = (field) => !isValidatedFieldWithErrors(field)
-    ? styles.textInput
-    : styles.textInputValidationFailed;
+  const textInputFieldStyle = (field) => [
+    globalStyles.textInput,
+    isValidatedFieldWithErrors(field) && globalStyles.textInputValidationFailed,
+  ];
 
   return (
-    <View style={styles.container}>
+    <View style={globalStyles.container}>
       {Object.entries(formFields).map(([field, val]) => (
         <View key={field}>
           <TextInput

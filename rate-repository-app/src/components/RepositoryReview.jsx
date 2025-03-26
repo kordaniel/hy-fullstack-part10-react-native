@@ -5,15 +5,10 @@ import Button from './Button';
 import Text from './Text';
 import { formatDate } from '../utils/stringTools';
 
+import globalStyles from '../globalStyles';
 import theme from '../theme';
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 10,
-    gap: 5,
-    margin: 5,
-    backgroundColor: theme.colors.white,
-  },
   rowContainer: {
     gap: 5,
     display: 'flex',
@@ -78,7 +73,7 @@ const RepositoryReview = ({ review, onDelete, isUsersOwnReviewView = false }) =>
     : review.user.username;
 
   return (
-    <View style={styles.container}>
+    <View style={globalStyles.container}>
       <View style={styles.rowContainer}>
         <View style={styles.ratingContainer}>
           <Text fontSize="heading" fontWeight="bold" color="primary">{review.rating}</Text>

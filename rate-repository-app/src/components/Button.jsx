@@ -1,23 +1,11 @@
 import { Animated, Pressable, StyleSheet } from 'react-native';
 
 import Text from './Text';
+import globalStyles from '../globalStyles';
 import theme from '../theme';
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-  },
-  button: {
-    borderWidth: 1,
-    borderColor: theme.colors.textSecondary,
-    borderRadius: 5,
-  },
-  buttonDisabled: {
-    opacity: 0.4,
-  },
-  text: {
-    padding: 10,
-  }
+  container: { flexGrow: 1, },
 });
 
 const Button = ({
@@ -57,9 +45,13 @@ const Button = ({
       onPressIn={handlePress}
       onPressOut={handleRelease}
     >
-      <Animated.View style={[styles.button, { backgroundColor }, isDisabled && styles.buttonDisabled]}>
+      <Animated.View style={[
+        globalStyles.button,
+        { backgroundColor },
+        isDisabled && globalStyles.buttonDisabled
+      ]}>
         <Text
-          style={styles.text}
+          style={globalStyles.buttonText}
           fontSize="subheading"
           fontWeight="bold"
           color={textColor}

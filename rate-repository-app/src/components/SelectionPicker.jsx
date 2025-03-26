@@ -1,17 +1,11 @@
 import { View, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import theme from '../theme';
-
-const styles = StyleSheet.create({
-  container: {
-    margin: 5,
-    backgroundColor: theme.colors.appBarTabBackground,
-  }
-});
+import globalStyles from '../globalStyles';
 
 const SelectionPicker = ({ selections = [], selectionIdx, setSelectionIdx }) => (
-  <View style={styles.container}>
+  <View>
     <Picker
+      style={globalStyles.picker}
       selectedValue={selectionIdx}
       onValueChange={(itemValue, _itemIndex) => {
         setSelectionIdx(itemValue);
@@ -19,7 +13,7 @@ const SelectionPicker = ({ selections = [], selectionIdx, setSelectionIdx }) => 
       prompt="Select an item..."
     >
       {selections.map((label, i) =>
-        <Picker.Item key={i} style={styles.picker} label={label} value={i} />
+        <Picker.Item key={i} label={label} value={i} />
       )}
     </Picker>
   </View>

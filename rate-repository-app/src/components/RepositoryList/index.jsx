@@ -7,22 +7,13 @@ import ItemSeparator from '../FlatListComponents/ItemSeparator';
 import RepositoryItem from './RepositoryItem';
 import SelectionPicker from '../SelectionPicker';
 import useRepositoriesGql from '../../hooks/useQuery';
+import globalStyles from '../../globalStyles';
 import theme from '../../theme';
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    padding: 5,
-    gap: 5,
-    margin: 5,
-    backgroundColor: theme.colors.appBackground,
-  },
   textInput: {
-    borderWidth: 1,
-    borderColor: theme.colors.textSecondary,
-    borderRadius: 5,
+    ...globalStyles.textInput,
     margin: 5,
-    padding: 5,
-    backgroundColor: theme.colors.white, 
   },
 });
 
@@ -34,7 +25,7 @@ const RepositoryListHeader = ({
   filterByString
 }) => {
   return (
-    <View style={styles.headerContainer}>
+    <View>
       <TextInput
           style={styles.textInput}
           placeholder='Search by name or username.'

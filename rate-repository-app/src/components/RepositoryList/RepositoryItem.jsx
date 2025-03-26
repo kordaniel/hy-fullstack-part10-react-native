@@ -2,6 +2,7 @@ import { Image, Pressable, StyleSheet, View } from 'react-native';
 import * as Linking from 'expo-linking';
 
 import Text from '../Text';
+import globalStyles from '../../globalStyles';
 import theme from '../../theme';
 
 const styles = StyleSheet.create({
@@ -10,12 +11,6 @@ const styles = StyleSheet.create({
     height: 50,
     borderColor: theme.colors.black,
     borderRadius: 3,
-  },
-  container: {
-    padding: 5,
-    gap: 10,
-    margin: 5,
-    backgroundColor: theme.colors.white,
   },
   rowContainer: {
     gap: 10,
@@ -99,7 +94,7 @@ const GitHubLink = ({ url }) => {
 
 const RepositoryItem = ({ item, renderLink }) => {
   return (
-    <View testID="repositoryItem" style={styles.container}>
+    <View testID="repositoryItem" style={globalStyles.container}>
       <ItemHeading
         avatarUrl={item.ownerAvatarUrl}
         fullName={item.fullName}
